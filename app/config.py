@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     DB_NAME: str
     DB_USER: str
     DB_PASS: str
+    AUTH_KEY: str
+    AUTH_ALGO: str
 
     @property
     def DATABASE_URL(self):
@@ -18,5 +20,3 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-
-print(settings.DATABASE_URL)

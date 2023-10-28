@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import insert, select
 
 from app.database import async_session_maker
 
@@ -21,3 +21,10 @@ class BaseDAO:
                 **filter_by)  # type: ignore
             result = await session.execute(query)
             return result.mappings().all()
+
+    @classmethod
+    async def add(cls, **data):
+        async with async_session_maker() as session:  # type: ignore
+            query = insert(cls.model).values(**data)
+            await session.execute(query)
+            await session.commit()
