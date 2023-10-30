@@ -84,3 +84,14 @@ class BookingDAO(BaseDAO):
                     raise RoomFullyBooked
         except RoomFullyBooked:
             raise RoomFullyBooked
+
+    @classmethod
+    async def get_user_booking(cls, user):
+        query = select(
+            Bookings.__table__.columns, Rooms.image_id, Rooms.name, Rooms.description, Rooms.services
+        ).join(
+            Bookings, Bookings.room_id == Rooms.id
+        ).where(Bookings.user_id == user.id)
+        async with async_session_maker() as session:  # type: ignore
+            bookings = await session.execute(query)
+            return bookings.mappings().all()
