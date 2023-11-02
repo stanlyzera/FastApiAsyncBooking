@@ -1,10 +1,11 @@
 from datetime import date
 
 from fastapi import APIRouter, Depends
+from pydantic import TypeAdapter
 
 from app.bookings.dao import BookingDAO
-from app.bookings.models import Bookings
-from app.bookings.schemas import SBookingWRoom
+from app.bookings.schemas import SBookingWRoom, SNewBooking
+from app.tasks.tasks import send_booking_confirmation_email
 from app.users.dependencies import get_current_user
 from app.users.models import Users
 
@@ -26,7 +27,9 @@ async def add_booking(
     date_to: date,
     user: Users = Depends(get_current_user)
 ) -> None:
-    await BookingDAO.add(user.id, room_id, date_from, date_to)
+    booking = await BookingDAO.add(user.id, room_id, date_from, date_to)
+    booking = TypeAdapter(SNewBooking).validate_python(booking).model_dump()
+    send_booking_confirmation_email.delay(booking, user.email)
 
 
 @router.delete("/{booking_id}", status_code=204)

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Список отелей</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .hotel {
+            display: flex;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+        .hotel img {
+            max-width: 200px;
+            height: auto;
+        }
+        .hotel-info {
+            margin-left: 20px;
+        }
+        .hotel-info h1 {
+            font-size: 24px;
+            margin: 0;
+            color: #333;
+        }
+        .hotel-info h4 {
+            font-size: 16px;
+            margin: 0;
+            color: #555;
+        }
+        .room-quantity {
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Список отелей</h1>
+    <div class="hotels">
+        {% for hotel in hotels %}
+        <div class="hotel">
+            <img src="{{ url_for('static', path='images/' + hotel.image_id|string + '.webp') }}" alt="Фото отеля">
+            <div class="hotel-info">
+                <h1>{{ hotel.name }}</h1>
+                <h4>{{ hotel.location }}</h4>
+                <p class="room-quantity">Количество комнат: {{ hotel.rooms_quantity }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>
+
