@@ -41,3 +41,18 @@ class UserIsNotExistException(BookingException):
 class RoomFullyBooked(BookingException):
     status_code = status.HTTP_409_CONFLICT
     detail = "Не осталось свободных номеров"
+
+
+class CannotBookHotelForLongPeriod(BookingException):
+    status_code = status.HTTP_400_BAD_REQUEST
+    detail = "Невозможно забронировать отель сроком более месяца"
+
+
+class CannotAddDataToDatabase(BookingException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail = "Не удалось добавить запись"
+
+
+class CannotProcessCSV(BookingException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail = "Не удалось обработать CSV файл"

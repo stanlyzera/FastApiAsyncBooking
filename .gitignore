@@ -244,6 +244,9 @@ Temporary Items
 pyvenv.cfg
 .venv
 pip-selfcheck.json
+.env
+.env-non-dev
+.flake8
 
 ### VisualStudioCode ###
 .vscode/*
